@@ -39,8 +39,11 @@ const historyList = document.getElementById('historyList');
 const activeCount = document.getElementById('activeCount');
 const completedCount = document.getElementById('completedCount');
 
-const HISTORY_KEY = 'fe_history_v1';
+const GENERATOR_HISTORY_KEY = 'video_generator_history_v1';
 const MAX_HISTORY_ITEMS = 6;
+const BASELINE_DURATION = 30;
+const MIN_SCALE = 0.8;
+const MAX_SCALE = 2.2;
 
 const state = {
   activeJob: null,
@@ -154,7 +157,7 @@ const setDownload = (job) => {
 };
 
 const loadHistory = () => {
-  const stored = localStorage.getItem(HISTORY_KEY);
+  const stored = localStorage.getItem(GENERATOR_HISTORY_KEY);
   if (!stored) return [];
   try {
     return JSON.parse(stored);
@@ -164,7 +167,7 @@ const loadHistory = () => {
 };
 
 const saveHistory = (history) => {
-  localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+  localStorage.setItem(GENERATOR_HISTORY_KEY, JSON.stringify(history));
 };
 
 const updateCounts = (history) => {
@@ -245,8 +248,8 @@ const startJob = (job) => {
   setDownload(null);
   updateCounts(loadHistory());
 
-  // Duration scale adjusts simulation timing: 30s baseline, 0.8 min, 2.2 max.
-  const durationScale = Math.min(Math.max(job.duration / 30, 0.8), 2.2);
+  // Duration scale adjusts simulation timing around the baseline duration.
+  const durationScale = Math.min(Math.max(job.duration / BASELINE_DURATION, MIN_SCALE), MAX_SCALE);
   const steps = [
     { key: 'queued', label: 'Queued', progress: 10, delay: 800 },
     { key: 'script', label: 'স্ক্রিপ্ট বিশ্লেষণ', progress: 32, delay: 1200 },
