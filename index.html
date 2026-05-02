@@ -3,30 +3,242 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Fantastic Enigma</title>
+    <title>ভিডিও জেনারেশন ব্লুপ্রিন্ট</title>
     <link rel="stylesheet" href="assets/style.css" />
   </head>
   <body>
-    <main class="hero">
-      <p class="badge">GitHub Pages Ready</p>
-      <h1>স্বাগতম! 🎉</h1>
+    <header class="hero">
+      <p class="badge">প্রজেক্ট ব্লুপ্রিন্ট</p>
+      <h1>CGI/VFX ভিডিও জেনারেশন অ্যাপ</h1>
       <p class="subtitle">
-        এই রিপো থেকে ফ্রি GitHub Pages দিয়ে সরাসরি একটি স্ট্যাটিক ওয়েব পেজ চালু হয়েছে।
+        আপনার গল্পের প্লট, প্রম্পট এবং রেফারেন্স ছবির ওপর ভিত্তি করে ভিডিও জেনারেট করার জন্য
+        এই পেজে প্রয়োজন, আর্কিটেকচার ও MVP ফোকাস নির্ধারণ করা হয়েছে।
       </p>
       <div class="actions">
-        <a class="button" href="https://pages.github.com/" target="_blank" rel="noreferrer">GitHub Pages</a>
+        <a class="button" href="#requirements">প্রয়োজন নির্ধারণ</a>
         <button class="button ghost" id="toggleTheme" type="button">থিম বদলাও</button>
       </div>
-      <section class="info">
-        <h2>পরবর্তী ধাপ</h2>
-        <ul>
-          <li>Settings → Pages এ গিয়ে Branch এবং / রুট সিলেক্ট করুন।</li>
-          <li>URL জেনারেট হলে সেটি ওপেন করে চেক করুন।</li>
-          <li>চাইলে এই কনটেন্ট আপডেট করে নিজের সাইট বানান।</li>
-        </ul>
+      <div class="hero-cards">
+        <div class="card">
+          <h3>স্ট্যাটাস</h3>
+          <p>প্রোডাক্ট স্কোপ ও পরিকল্পনা ফাইনাল করার ধাপ।</p>
+        </div>
+        <div class="card">
+          <h3>MVP লক্ষ্য</h3>
+          <p>সীমিত টেমপ্লেট + ছোট দৈর্ঘ্যের ভিডিও আউটপুট।</p>
+        </div>
+        <div class="card">
+          <h3>ডেলিভারি ফোকাস</h3>
+          <p>প্রম্পট-ভিত্তিক জেনারেশন, প্রিভিউ, এবং ডাউনলোড ফ্লো।</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <section id="requirements" class="section">
+        <div class="section-header">
+          <h2>১) প্রয়োজন ও সীমা নির্দিষ্ট করুন</h2>
+          <p>এই ফর্মের তথ্যগুলো ফাইনাল করলে API এবং ব্যাকএন্ড সিদ্ধান্ত দ্রুত নেওয়া যাবে।</p>
+        </div>
+        <div class="card">
+          <form class="form-grid">
+            <label>
+              প্ল্যাটফর্ম
+              <select class="input">
+                <option>ওয়েব অ্যাপ</option>
+                <option>মোবাইল অ্যাপ</option>
+                <option>উভয়ই</option>
+              </select>
+            </label>
+            <label>
+              ভিডিও দৈর্ঘ্য (সেকেন্ড)
+              <input class="input" type="number" min="5" max="180" placeholder="৩০" />
+            </label>
+            <label>
+              রেজোলিউশন
+              <select class="input">
+                <option>720p</option>
+                <option>1080p</option>
+                <option>4K (শুধু প্রিমিয়াম)</option>
+              </select>
+            </label>
+            <label>
+              ইনপুট টাইপ
+              <input class="input" type="text" placeholder="টেক্সট প্রম্পট + স্টোরি প্লট + ছবি" />
+            </label>
+            <label>
+              আউটপুট ফরম্যাট
+              <input class="input" type="text" placeholder="MP4 / MOV" />
+            </label>
+            <label>
+              বাজেট/টাইমলাইন
+              <input class="input" type="text" placeholder="৳ / মাস" />
+            </label>
+            <label class="wide">
+              গল্পের প্লট (সংক্ষিপ্ত)
+              <textarea class="input" rows="3" placeholder="এখানে গল্পের সারাংশ লিখুন..."></textarea>
+            </label>
+          </form>
+          <p class="hint">এই তথ্যগুলো সংগ্রহের পর টিম API মূল্যায়ন ও খরচের হিসাব দেবে।</p>
+        </div>
+      </section>
+
+      <section id="ui" class="section">
+        <div class="section-header">
+          <h2>২) বর্তমান স্ট্যাটিক পেজ থেকে UI বেস</h2>
+          <p>এই রিপোর স্ট্যাটিক পেজকে হোম/ডেমো/ফর্ম হিসেবে ব্যবহার করে দ্রুত MVP চালু করা যাবে।</p>
+        </div>
+        <div class="card-grid">
+          <div class="card">
+            <h3>হোমপেজ</h3>
+            <ul>
+              <li>প্রজেক্ট পরিচিতি ও CTA</li>
+              <li>ফিচার হাইলাইট</li>
+              <li>ভ্যালু প্রপোজিশন</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>ডেমো সেকশন</h3>
+            <ul>
+              <li>উদাহরণ ভিডিও থাম্বনেইল</li>
+              <li>জেনারেশন টাইমলাইন</li>
+              <li>কোয়ালিটি ট্যাগ (CGI/VFX)</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>ফর্ম/ইনপুট</h3>
+            <ul>
+              <li>প্রম্পট + প্লট</li>
+              <li>ছবি আপলোড</li>
+              <li>রেজোলিউশন/স্টাইল</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="ai" class="section">
+        <div class="section-header">
+          <h2>৩) AI সেবা ও API নির্বাচন</h2>
+          <p>ভিডিও জেনারেশন ও ইমেজ মডিফিকেশনের জন্য আলাদা মডেল দরকার।</p>
+        </div>
+        <div class="card">
+          <ul class="checklist">
+            <li>ভিডিও মডেল: কোয়ালিটি, রেন্ডার টাইম, প্রতি সেকেন্ড খরচ যাচাই।</li>
+            <li>ইমেজ মডিফিকেশন: স্টাইল কনসিস্টেন্সি ও ফেস-লক সমর্থন।</li>
+            <li>লাইসেন্স/কপিরাইট: কমার্শিয়াল ব্যবহারের অনুমতি নিশ্চিত করা।</li>
+            <li>রেট লিমিট ও কিউ: পিক টাইমে স্কেল করার সক্ষমতা।</li>
+          </ul>
+          <p class="hint">API শর্টলিস্টের জন্য ২-৩টি বিকল্প রেখে তুলনামূলক টেস্ট চালাতে হবে।</p>
+        </div>
+      </section>
+
+      <section id="architecture" class="section">
+        <div class="section-header">
+          <h2>৪) আর্কিটেকচার নির্ধারণ</h2>
+          <p>মডুলার সার্ভিস ডিজাইন করলে স্কেল ও মনিটরিং সহজ হবে।</p>
+        </div>
+        <div class="card-grid">
+          <div class="card">
+            <h3>ফ্রন্টএন্ড</h3>
+            <ul>
+              <li>প্রম্পট + ছবি আপলোড</li>
+              <li>স্টাইল/রেজোলিউশন সিলেকশন</li>
+              <li>লাইভ স্ট্যাটাস ভিউ</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>ব্যাকএন্ড</h3>
+            <ul>
+              <li>জব কিউ ও অর্কেস্ট্রেশন</li>
+              <li>API ফেইলওভার</li>
+              <li>রেট-লিমিট হ্যান্ডলিং</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>স্টোরেজ</h3>
+            <ul>
+              <li>রেফারেন্স ছবি স্টোর</li>
+              <li>ভিডিও আউটপুট CDN</li>
+              <li>মেটাডাটা লগ</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="flow" class="section">
+        <div class="section-header">
+          <h2>৫) ইউজার ফ্লো</h2>
+          <p>ভিজ্যুয়াল স্টোরি ফ্লো সরল রাখলে কনভার্সন বাড়বে।</p>
+        </div>
+        <div class="card">
+          <ol class="steps">
+            <li>প্লট লিখে প্রম্পট সেট করুন</li>
+            <li>রেফারেন্স ছবি আপলোড করুন</li>
+            <li>স্টাইল/রেজোলিউশন ঠিক করুন</li>
+            <li>জেনারেশন শুরু করুন</li>
+            <li>প্রোগ্রেস ও হিস্ট্রি দেখুন</li>
+            <li>ভিডিও ডাউনলোড/শেয়ার করুন</li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="safety" class="section">
+        <div class="section-header">
+          <h2>৬) সেফটি ও কমপ্লায়েন্স</h2>
+          <p>কনসেন্ট ও কনটেন্ট ফিল্টারিং নিশ্চিত করলে ঝুঁকি কমে।</p>
+        </div>
+        <div class="card">
+          <ul class="checklist">
+            <li>ব্যক্তিগত ছবি ব্যবহারে স্পষ্ট অনুমতি/কনসেন্ট।</li>
+            <li>অপব্যবহার রোধে কনটেন্ট ফিল্টার ও রিভিউ কিউ।</li>
+            <li>জেনারেটেড ভিডিওতে ওয়াটারমার্ক/ডিসক্লেইমার।</li>
+            <li>ডেটা রিটেনশন পলিসি ও ডিলিট অপশন।</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="mvp" class="section">
+        <div class="section-header">
+          <h2>৭) MVP সংজ্ঞা</h2>
+          <p>প্রথম রিলিজে কম ফিচার রেখে দ্রুত ভ্যালিডেশন টার্গেট।</p>
+        </div>
+        <div class="card-grid">
+          <div class="card">
+            <h3>MVP ফিচার</h3>
+            <ul>
+              <li>সীমিত স্টাইল প্রিসেট</li>
+              <li>২০-৩০ সেকেন্ড ভিডিও</li>
+              <li>একটি রেফারেন্স ছবি</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>পরবর্তী ধাপ</h3>
+            <ul>
+              <li>CGI/VFX কোয়ালিটি উন্নয়ন</li>
+              <li>মাল্টি-শ্যাট ভিডিও</li>
+              <li>টেমপ্লেট লাইব্রেরি</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="testing" class="section">
+        <div class="section-header">
+          <h2>৮) টেস্ট ও ডিপ্লয়মেন্ট</h2>
+          <p>বেসিক টেস্ট ও লগিং সেটআপ ছাড়া স্কেল করা ঝুঁকিপূর্ণ।</p>
+        </div>
+        <div class="card">
+          <ul class="checklist">
+            <li>ইনপুট ভ্যালিডেশন ও ফাইল আপলোড টেস্ট।</li>
+            <li>API টাইমআউট ও রেট-লিমিট সিমুলেশন।</li>
+            <li>ফ্রন্টএন্ড স্ট্যাটিক হোস্টিং + ব্যাকএন্ড আলাদা।</li>
+            <li>মেট্রিক্স, অ্যালার্ট, এবং কস্ট ট্র্যাকিং।</li>
+          </ul>
+        </div>
       </section>
     </main>
-    <footer class="footer">© 2026 Fantastic Enigma</footer>
+
+    <footer class="footer">© 2026 Fantastic Enigma — ভিডিও জেনারেশন ব্লুপ্রিন্ট</footer>
     <script src="assets/script.js"></script>
   </body>
 </html>
