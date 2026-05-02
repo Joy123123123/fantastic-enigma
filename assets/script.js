@@ -40,6 +40,7 @@ const activeCount = document.getElementById('activeCount');
 const completedCount = document.getElementById('completedCount');
 
 const HISTORY_KEY = 'fe_history_v1';
+const MAX_HISTORY_ITEMS = 6;
 
 const state = {
   activeJob: null,
@@ -244,6 +245,7 @@ const startJob = (job) => {
   setDownload(null);
   updateCounts(loadHistory());
 
+  // Duration scale adjusts simulation timing: 30s baseline, 0.8 min, 2.2 max.
   const durationScale = Math.min(Math.max(job.duration / 30, 0.8), 2.2);
   const steps = [
     { key: 'queued', label: 'Queued', progress: 10, delay: 800 },
@@ -286,8 +288,8 @@ const finishJob = (job) => {
 
   const history = loadHistory();
   history.unshift(job);
-  saveHistory(history.slice(0, 6));
-  renderHistory(history.slice(0, 6));
+  saveHistory(history.slice(0, MAX_HISTORY_ITEMS));
+  renderHistory(history.slice(0, MAX_HISTORY_ITEMS));
   setDownload(job);
 };
 
