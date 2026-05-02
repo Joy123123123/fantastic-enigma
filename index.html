@@ -3,155 +3,223 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ভিডিও জেনারেশন ব্লুপ্রিন্ট</title>
+    <title>ভিডিও জেনারেশন কন্ট্রোল সেন্টার</title>
     <link rel="stylesheet" href="assets/style.css" />
   </head>
   <body>
     <header class="hero">
-      <p class="badge">প্রজেক্ট ব্লুপ্রিন্ট</p>
-      <h1>CGI/VFX ভিডিও জেনারেশন অ্যাপ</h1>
+      <p class="badge">লাইভ সিস্টেম</p>
+      <h1>CGI/VFX ভিডিও জেনারেশন কন্ট্রোল সেন্টার</h1>
       <p class="subtitle">
-        আপনার গল্পের প্লট, প্রম্পট এবং রেফারেন্স ছবির ওপর ভিত্তি করে ভিডিও জেনারেট করার জন্য
-        এই পেজে প্রয়োজন, আর্কিটেকচার ও MVP ফোকাস নির্ধারণ করা হয়েছে।
+        প্রম্পট, স্টোরি, রেফারেন্স ছবি এবং কিউ সেটিংস দিয়ে রিয়েল-টাইমে ভিডিও জেনারেশন চালান।
+        এখানে ইনপুট, কিউ স্ট্যাটাস, আউটপুট এবং হিস্ট্রি একসাথে পাওয়া যাবে।
       </p>
       <div class="actions">
-        <a class="button" href="#requirements">প্রয়োজন নির্ধারণ</a>
+        <a class="button" href="#generator">জেনারেশন শুরু করুন</a>
         <button class="button ghost" id="toggleTheme" type="button">থিম বদলাও</button>
       </div>
       <div class="hero-cards">
         <div class="card">
           <h3>স্ট্যাটাস</h3>
-          <p>প্রোডাক্ট স্কোপ ও পরিকল্পনা ফাইনাল করার ধাপ।</p>
+          <p>লাইভ কিউ প্রস্তুত ও মনিটরিং চালু আছে।</p>
         </div>
         <div class="card">
-          <h3>MVP লক্ষ্য</h3>
-          <p>সীমিত টেমপ্লেট + ছোট দৈর্ঘ্যের ভিডিও আউটপুট।</p>
+          <h3>কিউ লোড</h3>
+          <p><span id="activeCount">0</span> টি চলমান জব</p>
         </div>
         <div class="card">
-          <h3>ডেলিভারি ফোকাস</h3>
-          <p>প্রম্পট-ভিত্তিক জেনারেশন, প্রিভিউ, এবং ডাউনলোড ফ্লো।</p>
+          <h3>সম্পন্ন আউটপুট</h3>
+          <p><span id="completedCount">0</span> টি ভিডিও প্রস্তুত</p>
         </div>
       </div>
     </header>
 
     <main class="content">
-      <section id="requirements" class="section">
+      <section id="generator" class="section">
         <div class="section-header">
-          <h2>১) প্রয়োজন ও সীমা নির্দিষ্ট করুন</h2>
-          <p>এই ফর্মের তথ্যগুলো ফাইনাল করলে API ছাড়াই অবকাঠামো ও স্কোপ সিদ্ধান্ত দ্রুত নেওয়া যাবে।</p>
+          <h2>১) লাইভ জেনারেশন ইনপুট</h2>
+          <p>বাস্তব ইনপুট দিন, তারপর জেনারেশন কিউ চালু করুন।</p>
         </div>
         <div class="card">
-          <form class="form-grid">
+          <form id="generatorForm" class="form-grid">
+            <label class="wide">
+              মূল প্রম্পট
+              <textarea
+                class="input"
+                id="promptInput"
+                name="prompt"
+                rows="3"
+                placeholder="উদাহরণ: ভবিষ্যৎ শহরে একটি রোবট হিরো রাতের আকাশে উড়ছে..."
+                required
+              ></textarea>
+            </label>
+            <label class="wide">
+              স্টোরি/স্ক্রিপ্ট (সংক্ষিপ্ত)
+              <textarea
+                class="input"
+                id="storyInput"
+                name="story"
+                rows="3"
+                placeholder="গল্পের মূল ঘটনাগুলো লিখুন যাতে শটগুলো ঠিকভাবে সাজানো যায়।"
+              ></textarea>
+            </label>
             <label>
-              প্ল্যাটফর্ম
-              <select class="input">
+              স্টাইল
+              <select class="input" id="styleInput" name="style">
+                <option value="Cinematic">সিনেমাটিক</option>
+                <option value="VFX">CGI/VFX হাই কনট্রাস্ট</option>
+                <option value="Anime">অ্যানিমে</option>
+                <option value="Documentary">ডকুমেন্টারি</option>
+              </select>
+            </label>
+            <label>
+              ভিডিও দৈর্ঘ্য (সেকেন্ড)
+              <input
+                class="input"
+                id="durationInput"
+                name="duration"
+                type="number"
+                min="5"
+                max="180"
+                placeholder="৩০"
+                required
+              />
+            </label>
+            <label>
+              রেজোলিউশন
+              <select class="input" id="resolutionInput" name="resolution" required>
+                <option value="">সিলেক্ট করুন</option>
+                <option>720p</option>
+                <option>1080p</option>
+                <option>4K</option>
+              </select>
+            </label>
+            <label>
+              অ্যাসপেক্ট রেশিও
+              <select class="input" id="aspectInput" name="aspect">
+                <option>16:9</option>
+                <option>9:16</option>
+                <option>1:1</option>
+              </select>
+            </label>
+            <label>
+              আউটপুট ফরম্যাট
+              <select class="input" id="formatInput" name="format" required>
+                <option value="">সিলেক্ট করুন</option>
+                <option>MP4</option>
+                <option>MOV</option>
+                <option>WEBM</option>
+              </select>
+            </label>
+            <label>
+              প্ল্যাটফর্ম টার্গেট
+              <select class="input" id="platformInput" name="platform">
                 <option>ওয়েব অ্যাপ</option>
                 <option>মোবাইল অ্যাপ</option>
                 <option>উভয়ই</option>
               </select>
             </label>
-            <label>
-              ভিডিও দৈর্ঘ্য (সেকেন্ড)
-              <input class="input" type="number" min="5" max="180" placeholder="৩০" />
-            </label>
-            <label>
-              রেজোলিউশন
-              <select class="input">
-                <option>720p</option>
-                <option>1080p</option>
-                <option>4K (শুধু প্রিমিয়াম)</option>
-              </select>
-            </label>
-            <label>
-              ইনপুট টাইপ
-              <input class="input" type="text" placeholder="টেক্সট প্রম্পট + স্টোরি প্লট + ছবি" />
-            </label>
-            <label>
-              আউটপুট ফরম্যাট
-              <input class="input" type="text" placeholder="MP4 / MOV" />
-            </label>
-            <label>
-              বাজেট/টাইমলাইন
-              <input class="input" type="text" placeholder="৳ / মাস" />
-            </label>
             <label class="wide">
-              গল্পের প্লট (সংক্ষিপ্ত)
-              <textarea class="input" rows="3" placeholder="এখানে গল্পের সারাংশ লিখুন..."></textarea>
+              রেফারেন্স ছবি (ঐচ্ছিক)
+              <input class="input" id="referenceInput" name="reference" type="file" accept="image/*" />
             </label>
           </form>
-          <p class="hint">এই তথ্যগুলো সংগ্রহের পর টিম লোকাল ইনফারেন্স ও অবকাঠামোর খরচের হিসাব দেবে।</p>
+          <div class="form-actions">
+            <button class="button" type="submit" form="generatorForm">জেনারেশন শুরু</button>
+            <button class="button ghost" id="resetForm" type="button">রিসেট</button>
+            <button class="button ghost" id="cancelJob" type="button" disabled>ক্যান্সেল</button>
+          </div>
+          <p class="form-error" id="formError" role="status" aria-live="polite"></p>
         </div>
       </section>
 
-      <section id="ui" class="section">
+      <section id="status" class="section">
         <div class="section-header">
-          <h2>২) বর্তমান স্ট্যাটিক পেজ থেকে UI বেস</h2>
-          <p>এই রিপোর স্ট্যাটিক পেজকে হোম/ডেমো/ফর্ম হিসেবে ব্যবহার করে দ্রুত MVP চালু করা যাবে।</p>
+          <h2>২) লাইভ কিউ ও আউটপুট</h2>
+          <p>জব কিউ, রেন্ডার স্টেপ এবং আউটপুট সারাংশ এখানে দেখা যাবে।</p>
         </div>
         <div class="card-grid">
           <div class="card">
-            <h3>হোমপেজ</h3>
-            <ul>
-              <li>প্রজেক্ট পরিচিতি ও CTA</li>
-              <li>ফিচার হাইলাইট</li>
-              <li>ভ্যালু প্রপোজিশন</li>
+            <h3>কিউ স্ট্যাটাস</h3>
+            <div class="status-row">
+              <span class="status-pill is-idle" id="jobStatus">Idle</span>
+              <span class="status-id" id="jobId">কোনো জব নেই</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" id="jobProgressBar" style="width: 0%"></div>
+            </div>
+            <div class="progress-label" id="jobProgressLabel">0%</div>
+            <ul class="steps status-steps" id="jobSteps">
+              <li data-step="queued">কিউড</li>
+              <li data-step="script">স্ক্রিপ্ট বিশ্লেষণ</li>
+              <li data-step="render">রেন্ডারিং</li>
+              <li data-step="packaging">প্যাকেজিং</li>
+              <li data-step="complete">সম্পন্ন</li>
             </ul>
           </div>
           <div class="card">
-            <h3>ডেমো সেকশন</h3>
-            <ul>
-              <li>উদাহরণ ভিডিও থাম্বনেইল</li>
-              <li>জেনারেশন টাইমলাইন</li>
-              <li>কোয়ালিটি ট্যাগ (CGI/VFX)</li>
+            <h3>আউটপুট সারাংশ</h3>
+            <div class="output-preview" id="outputPreview">এখনও কোনো ভিডিও তৈরি হয়নি।</div>
+            <ul class="meta-list">
+              <li><span>রেজোলিউশন</span><strong id="outputResolution">-</strong></li>
+              <li><span>দৈর্ঘ্য</span><strong id="outputDuration">-</strong></li>
+              <li><span>স্টাইল</span><strong id="outputStyle">-</strong></li>
+              <li><span>ফরম্যাট</span><strong id="outputFormat">-</strong></li>
+              <li><span>শেষ আপডেট</span><strong id="outputUpdated">-</strong></li>
             </ul>
+            <a class="button" id="downloadReport" href="#" download="render-report.json" aria-disabled="true">
+              রেন্ডার রিপোর্ট ডাউনলোড
+            </a>
           </div>
-          <div class="card">
-            <h3>ফর্ম/ইনপুট</h3>
-            <ul>
-              <li>প্রম্পট + প্লট</li>
-              <li>ছবি আপলোড</li>
-              <li>রেজোলিউশন/স্টাইল</li>
-            </ul>
-          </div>
+        </div>
+      </section>
+
+      <section id="history" class="section">
+        <div class="section-header">
+          <h2>৩) সাম্প্রতিক জেনারেশন</h2>
+          <p>শেষ কয়েকটি রান এখানে সংরক্ষিত থাকবে, ক্লিক করলে আউটপুট সারাংশ আপডেট হবে।</p>
+        </div>
+        <div class="card">
+          <div class="history-list" id="historyList"></div>
         </div>
       </section>
 
       <section id="ai" class="section">
         <div class="section-header">
-          <h2>৩) লোকাল AI সেটআপ (API প্রয়োজন নেই)</h2>
-          <p>ভিডিও জেনারেশন ও ইমেজ মডিফিকেশনের জন্য লোকাল/অন-প্রেম মডেল নির্বাচন জরুরি।</p>
+          <h2>৪) লোকাল AI রিসোর্স মনিটরিং</h2>
+          <p>মডেল লোড, লাইসেন্স ও GPU সীমা রিয়েল-টাইমে ট্র্যাক করুন।</p>
         </div>
         <div class="card">
           <ul class="checklist">
-            <li>ভিডিও মডেল: কোয়ালিটি, রেন্ডার টাইম, এবং GPU খরচ যাচাই।</li>
-            <li>ইমেজ মডিফিকেশন: স্টাইল কনসিস্টেন্সি ও ফেস-লক সাপোর্ট।</li>
-            <li>লাইসেন্স/কপিরাইট: কমার্শিয়াল ব্যবহারের অনুমতি নিশ্চিত করা।</li>
-            <li>কিউ ও রিসোর্স সীমা: পিক টাইমে স্কেল করার সক্ষমতা।</li>
+            <li>ভিডিও মডেল: VFX-XL (স্ট্যাটাস: Ready)</li>
+            <li>ইমেজ মডিফিকেশন: Face-Lock v2 (স্ট্যাটাস: Ready)</li>
+            <li>লাইসেন্স: কমার্শিয়াল ব্যবহারের অনুমোদন যাচাইকৃত</li>
+            <li>GPU কনকারেন্সি: সর্বোচ্চ ৪টি জব</li>
           </ul>
-          <p class="hint">লোকাল মডেল বাছাইয়ের জন্য ২-৩টি বিকল্প রেখে তুলনামূলক টেস্ট চালাতে হবে।</p>
+          <p class="hint">রিসোর্স সীমা পরিবর্তন করলে কিউ অটোমেটিক স্কেল হবে।</p>
         </div>
       </section>
 
       <section id="architecture" class="section">
         <div class="section-header">
-          <h2>৪) আর্কিটেকচার নির্ধারণ</h2>
-          <p>মডুলার সার্ভিস ডিজাইন করলে স্কেল ও মনিটরিং সহজ হবে।</p>
+          <h2>৫) সার্ভিস ম্যাপ</h2>
+          <p>রেন্ডার, কিউ এবং স্টোরেজ কিভাবে একসাথে কাজ করছে তার সারাংশ।</p>
         </div>
         <div class="card-grid">
           <div class="card">
             <h3>ফ্রন্টএন্ড</h3>
             <ul>
-              <li>প্রম্পট + ছবি আপলোড</li>
-              <li>স্টাইল/রেজোলিউশন সিলেকশন</li>
+              <li>ইনপুট ফর্ম ও প্রিভিউ</li>
               <li>লাইভ স্ট্যাটাস ভিউ</li>
+              <li>হিস্ট্রি ও রিপোর্ট ডাউনলোড</li>
             </ul>
           </div>
           <div class="card">
             <h3>ব্যাকএন্ড</h3>
             <ul>
-            <li>জব কিউ ও অর্কেস্ট্রেশন</li>
-            <li>রেন্ডার নোড স্কেলিং</li>
-            <li>টাইমআউট ও রিট্রাই নীতি</li>
+              <li>জব কিউ ও অর্কেস্ট্রেশন</li>
+              <li>রেন্ডার নোড স্কেলিং</li>
+              <li>টাইমআউট ও রিট্রাই নীতি</li>
             </ul>
           </div>
           <div class="card">
@@ -167,25 +235,25 @@
 
       <section id="flow" class="section">
         <div class="section-header">
-          <h2>৫) ইউজার ফ্লো</h2>
-          <p>ভিজ্যুয়াল স্টোরি ফ্লো সরল রাখলে কনভার্সন বাড়বে।</p>
+          <h2>৬) ইউজার ফ্লো</h2>
+          <p>ইনপুট থেকে ডাউনলোড পর্যন্ত সব ধাপ এক নজরে।</p>
         </div>
         <div class="card">
           <ol class="steps">
-            <li>প্লট লিখে প্রম্পট সেট করুন</li>
+            <li>প্রম্পট ও গল্প লিখুন</li>
             <li>রেফারেন্স ছবি আপলোড করুন</li>
             <li>স্টাইল/রেজোলিউশন ঠিক করুন</li>
             <li>জেনারেশন শুরু করুন</li>
             <li>প্রোগ্রেস ও হিস্ট্রি দেখুন</li>
-            <li>ভিডিও ডাউনলোড/শেয়ার করুন</li>
+            <li>রিপোর্ট বা ভিডিও ডাউনলোড করুন</li>
           </ol>
         </div>
       </section>
 
       <section id="safety" class="section">
         <div class="section-header">
-          <h2>৬) সেফটি ও কমপ্লায়েন্স</h2>
-          <p>কনসেন্ট ও কনটেন্ট ফিল্টারিং নিশ্চিত করলে ঝুঁকি কমে।</p>
+          <h2>৭) সেফটি ও কমপ্লায়েন্স</h2>
+          <p>কনসেন্ট, কনটেন্ট ফিল্টারিং এবং রিটেনশন নীতিমালা সক্রিয় রাখুন।</p>
         </div>
         <div class="card">
           <ul class="checklist">
@@ -199,12 +267,12 @@
 
       <section id="mvp" class="section">
         <div class="section-header">
-          <h2>৭) MVP সংজ্ঞা</h2>
-          <p>প্রথম রিলিজে কম ফিচার রেখে দ্রুত ভ্যালিডেশন টার্গেট।</p>
+          <h2>৮) লাইভ রিলিজ চেকলিস্ট</h2>
+          <p>প্রথম রিলিজে কী কী নিশ্চিত হবে তা এখানে ট্র্যাক করা যাবে।</p>
         </div>
         <div class="card-grid">
           <div class="card">
-            <h3>MVP ফিচার</h3>
+            <h3>লাইভ ফিচার</h3>
             <ul>
               <li>সীমিত স্টাইল প্রিসেট</li>
               <li>২০-৩০ সেকেন্ড ভিডিও</li>
@@ -224,8 +292,8 @@
 
       <section id="testing" class="section">
         <div class="section-header">
-          <h2>৮) টেস্ট ও ডিপ্লয়মেন্ট</h2>
-          <p>বেসিক টেস্ট ও লগিং সেটআপ ছাড়া স্কেল করা ঝুঁকিপূর্ণ।</p>
+          <h2>৯) মনিটরিং ও ডিপ্লয়মেন্ট</h2>
+          <p>স্কেল করার আগে বেসিক টেস্টিং ও মনিটরিং নিশ্চিত করুন।</p>
         </div>
         <div class="card">
           <ul class="checklist">
@@ -238,7 +306,7 @@
       </section>
     </main>
 
-    <footer class="footer">© 2026 Fantastic Enigma — ভিডিও জেনারেশন ব্লুপ্রিন্ট</footer>
+    <footer class="footer">© 2026 Fantastic Enigma — ভিডিও জেনারেশন কন্ট্রোল সেন্টার</footer>
     <script src="assets/script.js"></script>
   </body>
 </html>
