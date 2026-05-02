@@ -44,6 +44,7 @@ const MAX_HISTORY_ITEMS = 6;
 const BASELINE_DURATION = 30;
 const MIN_SCALE = 0.8;
 const MAX_SCALE = 2.2;
+const JSON_INDENT = 2;
 
 const state = {
   activeJob: null,
@@ -144,13 +145,13 @@ const setDownload = (job) => {
     aspect: job.aspect,
     format: job.format,
     platform: job.platform,
-    reference: job.referenceName,
+    reference: job.reference,
     status: job.status,
     createdAt: job.createdAt,
     completedAt: job.completedAt,
   };
 
-  const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+  const blob = new Blob([JSON.stringify(report, null, JSON_INDENT)], { type: 'application/json' });
   state.reportUrl = URL.createObjectURL(blob);
   downloadReport.href = state.reportUrl;
   downloadReport.setAttribute('aria-disabled', 'false');
@@ -248,7 +249,7 @@ const startJob = (job) => {
   setDownload(null);
   updateCounts(loadHistory());
 
-  // Duration scale adjusts simulation timing around the baseline duration.
+  // Keep simulation visible for short clips and avoid long waits for longer clips.
   const durationScale = Math.min(Math.max(job.duration / BASELINE_DURATION, MIN_SCALE), MAX_SCALE);
   const steps = [
     { key: 'queued', label: 'Queued', progress: 10, delay: 800 },
@@ -357,7 +358,7 @@ form?.addEventListener('submit', (event) => {
     aspect,
     format,
     platform,
-    referenceName: referenceFile?.name || 'N/A',
+    reference: referenceFile?.name || 'N/A',
     status: 'queued',
     statusLabel: 'Queued',
     progress: 0,
